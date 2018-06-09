@@ -1,27 +1,52 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = null;
 }
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="~/Content/index.css">
 </head>
 
 <body>
-    <div class="app">
+    <h3 style="color:aliceblue; text-align:center">Your best beer search engine</h3>
+    <div id="app">
         <template>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="beer-card" v-for="(item,index) in allBeers" :key="index">
+                        <div class="card-block">
+                            <p>Id:{{item.Id}}</p>
+                            <p>Beer Name:{{item.name}}</p>
+                            <p>Display Name:{{item.nameDisplay}}</p>
+                            <p>Description:{{item.description}}</p>
+                            <p>CreateDate:{{item.createDate}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </template>
     </div>
     <script>
         new Vue({
             el: "#app",
-            data: {
-
-            },
-            computed: {
-
+            data() {
+                return {
+                    allBeers: [],
+                }
             },
             methods: {
-
+                getBeersByName(beerName) {
+                    axios.get("/api/Beer/Beers?beerName=" + beerName)
+                        .then(response => {
+                            this.allBeers = response.data;
+                            console.log(this.allBeers);
+                        });
+                }
+            },
+            created() {
+                this.getBeersByName("");
             }
         })
     </script>

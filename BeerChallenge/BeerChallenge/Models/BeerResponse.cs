@@ -8,6 +8,9 @@ namespace BeerChallenge.Models
     {
         [JsonProperty("data")]
         public List<BeerResponseDetail> Data { get; set; }
+
+        [JsonIgnore]
+        public DateTime LatestUpdateTime { get; set; }
     }
 
     public class BeerResponseDetail

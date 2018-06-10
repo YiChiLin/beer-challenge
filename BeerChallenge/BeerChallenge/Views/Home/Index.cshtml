@@ -14,8 +14,9 @@
     <div id="app">
         <template>
             <div class="wrapper">
+                <div class="dropdown">
                 <nav class="navbar navbar-light bg-light justify-content-between">
-                    <a class="navbar-brand">All Beers</a>
+                    <a class="navbar-brand">Beers with</a>
                     <div class="dropdown form-inline">
                         <button type="button" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
@@ -32,7 +33,53 @@
                         <p class="card-text" style="text-align:left;"><strong>Original Gravity: </strong>{{item.originalGravity ? item.originalGravity :'-'}}</p>
                         <p class="card-text" style="text-align:left;"><strong>Alcohol By Volume: </strong>{{item.abv}}</p>
                         <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
-                        <a href="#" class="btn btn-primary">More</a>
+                        <a href="#" v-if="showCloseBtn && selectedDetail == item.id" class="btn btn-danger" v-on:click.prevent="hideDetail();">Close</a>
+                        <a href="#" v-else class="btn btn-primary" v-on:click.prevent="showDetail(item.id);">More</a>
+
+                        <div v-show="selectedDetail == item.id">
+                            <hr>
+                            <h3>Details</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Property</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">Property</th>
+                                    <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Category</th>
+                                        <td>{{item.style.categoryId}}</td>
+                                        <th>Abv Min</th>
+                                        <td>{{item.style.abvMin}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fg Min</th>
+                                        <td>{{item.style.fgMin}}</td>
+                                        <th>Fg Max</th>
+                                        <td>{{item.style.fgMax}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ibu Min</th>
+                                        <td>{{item.style.fgMin}}</td>
+                                        <th>Ibu Max</th>
+                                        <td>{{item.style.fgMax}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Srm Min</th>
+                                        <td>{{item.style.srmMin}}</td>
+                                        <th>Srm Max</th>
+                                        <td>{{item.style.srmMax}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Style Description</th>
+                                        <td colspan="3">{{item.style.description}}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,7 +93,9 @@
                     allBeers: [],
                     searchVal: "",
                     displayBeers: [],
-                    isOrganic: false
+                    isOrganic: false,
+                    selectedDetail:"none",
+                    showCloseBtn: false
                 }
             },
             methods: {
@@ -69,6 +118,13 @@
                 filterOrganic(){
                     let targetCondiction = this.isOrganic ? 'Y':'N';
                     this.displayBeers = this.allBeers.filter(beer=>beer.isOrganic == targetCondiction);
+                },
+                showDetail(beerId){
+                    this.selectedDetail = beerId;
+                    this.showCloseBtn = true;
+                },
+                hideDetail(beerId){
+                    this.selectedDetail = "none";
                 }
             },
             created() {

@@ -12,7 +12,7 @@ namespace BeerChallenge.Services
     public class BeerService : IBeerService
     {
         private BeerResponse _BeerCache;
-        private IBreweryApiService _BreweryApiService { get; }
+        private IApiService<BeerResponse> _BreweryApiService { get; }
 
         public BeerService()
         {
@@ -24,7 +24,7 @@ namespace BeerChallenge.Services
             const int cacheTimeoutMinutes = 5;
             if (_BeerCache == null || DateTime.Now.Subtract(_BeerCache.LatestUpdateTime).Minutes > cacheTimeoutMinutes)
             {
-                _BeerCache = await _BreweryApiService.GetAllBeerInformationAsync();
+                _BeerCache = await _BreweryApiService.GetAsync();
                 _BeerCache.LatestUpdateTime = DateTime.Now;
             }
 

@@ -7,14 +7,9 @@ using Newtonsoft.Json;
 
 namespace BeerChallenge.Services
 {
-    public interface IBreweryApiService
+    public class BreweryApiService : IApiService<BeerResponse>
     {
-        Task<BeerResponse> GetAllBeerInformationAsync();
-    }
-
-    public class BreweryApiService : IBreweryApiService
-    {
-        public async Task<BeerResponse> GetAllBeerInformationAsync()
+        public async Task<BeerResponse> GetAsync()
         {
             using (var client = new WebClient())
             {

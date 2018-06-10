@@ -25,9 +25,9 @@
                     <a class="dropdown-item" href="#" v-on:click="sortAsec('Ascending');">Ascending</a>
                     </div>
                     <div class="dropdown form-inline">
-                        <button type="button" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
-                        <button class="btn btn-outline-success my-2 my-sm-0"  v-on:click="searchByBeerName()">Search By Beer Name</button>
+                        <button type="button" id="organicBtn" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
+                        <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
+                        <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" v-on:click="searchByBeerName()">Search By Beer Name</button>
                     </div>
                 </nav>
                 <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in displayBeers" :key="index">

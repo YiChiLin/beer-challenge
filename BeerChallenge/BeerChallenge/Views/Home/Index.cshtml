@@ -17,6 +17,7 @@
                 <nav class="navbar navbar-light bg-light justify-content-between">
                     <a class="navbar-brand">All Beers</a>
                     <div class="dropdown form-inline">
+                        <button type="button" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
                         <button class="btn btn-outline-success my-2 my-sm-0"  v-on:click="searchByBeerName()">Search By Beer Name</button>
                     </div>
@@ -44,7 +45,8 @@
                 return {
                     allBeers: [],
                     searchVal: "",
-                    displayBeers: []
+                    displayBeers: [],
+                    isOrganic: false
                 }
             },
             methods: {
@@ -63,6 +65,10 @@
                     }
                     
                     this.displayBeers = this.allBeers.filter(beer =>  beer.nameDisplay.includes(this.searchVal));
+                },
+                filterOrganic(){
+                    let targetCondiction = this.isOrganic ? 'Y':'N';
+                    this.displayBeers = this.allBeers.filter(beer=>beer.isOrganic == targetCondiction);
                 }
             },
             created() {

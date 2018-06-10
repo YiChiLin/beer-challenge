@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <h3 class="title">Your best beer search engine</h3>
+    <h3 class="title">Beer search engine</h3>
     <div id="app">
         <template>
             <div class="wrapper">
@@ -33,7 +33,6 @@
                 <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in displayBeers" :key="index">
                     <h5 class="card-header">{{item.nameDisplay}}</h5>
                     <div class="card-body">
-                        <!-- <h5 class="card-title">{{item.id}}</h5> -->
                         <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.statusDisplay}}</p>
                         <p class="card-text" style="text-align:left;"><strong>IsOrganic: </strong>{{item.isOrganic =='Y' ? 'Yes': 'No'}}</p>
                         <p class="card-text" style="text-align:left;"><strong>International Bitterness Unite: </strong>{{item.ibu ? item.ibu :'-' }}</p>
@@ -126,7 +125,7 @@
                 },
                 filterOrganic(){
                     let targetCondiction = this.isOrganic ? 'Y':'N';
-                    this.displayBeers = this.displayBeers.filter(beer=>beer.isOrganic == targetCondiction);
+                    this.displayBeers = this.allBeers.filter(beer=>beer.isOrganic == targetCondiction);
                 },
                 showDetail(beerId){
                     this.selectedDetail = beerId;

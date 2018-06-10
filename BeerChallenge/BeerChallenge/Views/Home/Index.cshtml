@@ -19,10 +19,10 @@
             <div class="wrapper">
                 <div class="dropdown">
                 <nav class="navbar navbar-light bg-light justify-content-between">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{currentSort}}</button>
+                    <button type="button" id="sortDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{currentSort}}</button>
                     <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" v-on:click="sortDesc('Descending');">Descending</a>
-                    <a class="dropdown-item" href="#" v-on:click="sortAsec('Ascending');">Ascending</a>
+                    <a class="dropdown-item" id="descendingBtn" href="#" v-on:click="sortDesc('Descending');">Descending</a>
+                    <a class="dropdown-item" id="ascendingBtn" href="#" v-on:click="sortAsec('Ascending');">Ascending</a>
                     </div>
                     <div class="dropdown form-inline">
                         <button type="button" id="organicBtn" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>

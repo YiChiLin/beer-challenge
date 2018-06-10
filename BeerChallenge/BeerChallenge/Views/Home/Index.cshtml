@@ -22,10 +22,14 @@
                     </form>
                 </nav>
                 <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in allBeers" :key="index">
-                    <h5 class="card-header">{{item.name}}</h5>
+                    <h5 class="card-header">{{item.nameDisplay}}</h5>
                     <div class="card-body">
                         <!-- <h5 class="card-title">{{item.id}}</h5> -->
-                        <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.status}}</p>
+                        <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.statusDisplay}}</p>
+                        <p class="card-text" style="text-align:left;"><strong>IsOrganic: </strong>{{item.isOrganic =='Y' ? 'Yes': 'No'}}</p>
+                        <p class="card-text" style="text-align:left;"><strong>International Bitterness Unite: </strong>{{item.ibu ? item.ibu :'-' }}</p>
+                        <p class="card-text" style="text-align:left;"><strong>Original Gravity: </strong>{{item.originalGravity ? item.originalGravity :'-'}}</p>
+                        <p class="card-text" style="text-align:left;"><strong>Alcohol By Volume: </strong>{{item.abv}}</p>
                         <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
                         <a href="#" class="btn btn-primary">More</a>
                     </div>

@@ -1,3 +1,3 @@
 # beer-challenge
 
-## Data support from [BreweryDB](http://www.brewerydb.com/)
+### All data are supported by [BreweryDB](http://www.brewerydb.com/)

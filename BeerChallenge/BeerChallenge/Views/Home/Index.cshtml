@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <link rel="stylesheet" href="~/Content/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -16,7 +19,11 @@
             <div class="wrapper">
                 <div class="dropdown">
                 <nav class="navbar navbar-light bg-light justify-content-between">
-                    <a class="navbar-brand">Beers with</a>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{currentSort}}</button>
+                    <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" v-on:click="sortDesc('Descending');">Descending</a>
+                    <a class="dropdown-item" href="#" v-on:click="sortAsec('Ascending');">Ascending</a>
+                    </div>
                     <div class="dropdown form-inline">
                         <button type="button" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
@@ -32,6 +39,7 @@
                         <p class="card-text" style="text-align:left;"><strong>International Bitterness Unite: </strong>{{item.ibu ? item.ibu :'-' }}</p>
                         <p class="card-text" style="text-align:left;"><strong>Original Gravity: </strong>{{item.originalGravity ? item.originalGravity :'-'}}</p>
                         <p class="card-text" style="text-align:left;"><strong>Alcohol By Volume: </strong>{{item.abv}}</p>
+                        <p class="card-text" style="text-align:left;"><strong>Create Date: </strong>{{item.createDate}}</p>
                         <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
                         <a href="#" v-if="showCloseBtn && selectedDetail == item.id" class="btn btn-danger" v-on:click.prevent="hideDetail();">Close</a>
                         <a href="#" v-else class="btn btn-primary" v-on:click.prevent="showDetail(item.id);">More</a>
@@ -95,7 +103,8 @@
                     displayBeers: [],
                     isOrganic: false,
                     selectedDetail:"none",
-                    showCloseBtn: false
+                    showCloseBtn: false,
+                    currentSort:"Sort by date"
                 }
             },
             methods: {
@@ -113,11 +122,11 @@
                         alert("Please enter a beer name.");
                     }
                     
-                    this.displayBeers = this.allBeers.filter(beer =>  beer.nameDisplay.includes(this.searchVal));
+                    this.displayBeers = this.allBeers.filter(beer =>  beer.nameDisplay.toLowerCase().includes(this.searchVal.toLowerCase()));
                 },
                 filterOrganic(){
                     let targetCondiction = this.isOrganic ? 'Y':'N';
-                    this.displayBeers = this.allBeers.filter(beer=>beer.isOrganic == targetCondiction);
+                    this.displayBeers = this.displayBeers.filter(beer=>beer.isOrganic == targetCondiction);
                 },
                 showDetail(beerId){
                     this.selectedDetail = beerId;
@@ -125,8 +134,21 @@
                 },
                 hideDetail(beerId){
                     this.selectedDetail = "none";
+                },
+                sortDesc(sortMethod){
+                    this.currentSort = sortMethod;
+                    this.displayBeers = this.allBeers.sort((beer1,beer2)=>{
+                        return new Date(beer2.createDate) - new Date(beer1.createDate);
+                    });
+                },
+                sortAsec(sortMethod){
+                    this.currentSort = sortMethod;
+                    this.displayBeers = this.allBeers.sort((beer1,beer2)=>{
+                        return new Date(beer1.createDate) - new Date(beer2.createDate);
+                    });
                 }
             },
+
             created() {
                 this.getBeersByName("");
             }

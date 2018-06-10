@@ -11,30 +11,30 @@ namespace BeerChallengeTest
         [TestClass]
         public class BeerSearchEngine
         {
-            private string baseURL;
-            private IWebDriver driver;
+            private string _BaseUrl;
+            private IWebDriver _Driver;
 
             [TestMethod]
             public void GetOrganicBeerTest()
             {
-                driver.Navigate().GoToUrl(baseURL);
+                _Driver.Navigate().GoToUrl(_BaseUrl);
                 WaitDataFromApi();
-                driver.FindElement(By.Id("organicBtn")).Click();
+                _Driver.FindElement(By.Id("organicBtn")).Click();
                 Assert.AreEqual("IsOrganic: Yes",
-                    driver.FindElement(By.CssSelector("#app > div > div > div:nth-child(2) > div > p:nth-child(2)"))
+                    _Driver.FindElement(By.CssSelector("#app > div > div > div:nth-child(2) > div > p:nth-child(2)"))
                         .Text);
             }
 
             [TestMethod]
             public void SearchByBeerNameTest()
             {
-                driver.Navigate().GoToUrl(baseURL);
+                _Driver.Navigate().GoToUrl(_BaseUrl);
                 WaitDataFromApi();
 
                 var searchingBeerName = "American";
-                driver.FindElement(By.Id("searchInput")).SendKeys(searchingBeerName);
-                driver.FindElement(By.Id("searchBtn")).Click();
-                var targetText = driver.FindElement(By.CssSelector("#app > div > div > div:nth-child(2) > h5")).Text;
+                _Driver.FindElement(By.Id("searchInput")).SendKeys(searchingBeerName);
+                _Driver.FindElement(By.Id("searchBtn")).Click();
+                var targetText = _Driver.FindElement(By.CssSelector("#app > div > div > div:nth-child(2) > h5")).Text;
                 var actualResult = targetText.Contains(searchingBeerName);
                 Assert.AreEqual(true, actualResult);
             }
@@ -42,8 +42,8 @@ namespace BeerChallengeTest
             [TestInitialize]
             public void SetupTest()
             {
-                driver = new ChromeDriver();
-                baseURL = "http://beerchallenge.localdev.net/";
+                _Driver = new ChromeDriver();
+                _BaseUrl = "http://beerchallenge.localdev.net/";
             }
 
             private void WaitDataFromApi()

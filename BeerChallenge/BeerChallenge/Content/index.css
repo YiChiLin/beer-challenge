@@ -7,12 +7,21 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: white;
     margin-top: 60px;
 }
 
 .beer-card {
     border: 2px solid #4FC08D;
     border-radius: 4px;
-    cursor: pointer;
+}
+
+.title{
+    color:aliceblue; 
+    text-align:center;
+    padding-top: 1em;
+}
+
+.wrapper{
+    width: 70%;
+    margin: 0 auto;
 }

@@ -10,19 +10,24 @@
 </head>
 
 <body>
-    <h3 style="color:aliceblue; text-align:center">Your best beer search engine</h3>
+    <h3 class="title">Your best beer search engine</h3>
     <div id="app">
         <template>
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="beer-card" v-for="(item,index) in allBeers" :key="index">
-                        <div class="card-block">
-                            <p>Id:{{item.Id}}</p>
-                            <p>Beer Name:{{item.name}}</p>
-                            <p>Display Name:{{item.nameDisplay}}</p>
-                            <p>Description:{{item.description}}</p>
-                            <p>CreateDate:{{item.createDate}}</p>
-                        </div>
+            <div class="wrapper">
+                <nav class="navbar navbar-light bg-light justify-content-between">
+                    <a class="navbar-brand">All Beers</a>
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search By Beer Name</button>
+                    </form>
+                </nav>
+                <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in allBeers" :key="index">
+                    <h5 class="card-header">{{item.name}}</h5>
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">{{item.id}}</h5> -->
+                        <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.status}}</p>
+                        <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
+                        <a href="#" class="btn btn-primary">More</a>
                     </div>
                 </div>
             </div>

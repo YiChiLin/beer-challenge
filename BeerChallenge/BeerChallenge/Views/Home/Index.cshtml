@@ -4,7 +4,7 @@
 }
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <link rel="stylesheet" href="~/Content/index.css">
 </head>
@@ -16,12 +16,12 @@
             <div class="wrapper">
                 <nav class="navbar navbar-light bg-light justify-content-between">
                     <a class="navbar-brand">All Beers</a>
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search By Beer Name</button>
-                    </form>
+                    <div class="dropdown form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
+                        <button class="btn btn-outline-success my-2 my-sm-0"  v-on:click="searchByBeerName()">Search By Beer Name</button>
+                    </div>
                 </nav>
-                <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in allBeers" :key="index">
+                <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in displayBeers" :key="index">
                     <h5 class="card-header">{{item.nameDisplay}}</h5>
                     <div class="card-body">
                         <!-- <h5 class="card-title">{{item.id}}</h5> -->
@@ -43,6 +43,8 @@
             data() {
                 return {
                     allBeers: [],
+                    searchVal: "",
+                    displayBeers: []
                 }
             },
             methods: {
@@ -50,8 +52,17 @@
                     axios.get("/api/Beer/Beers?beerName=" + beerName)
                         .then(response => {
                             this.allBeers = response.data;
+                            this.displayBeers = this.allBeers;
                             console.log(this.allBeers);
                         });
+                },
+                searchByBeerName(){
+                    if(!this.searchVal){
+                        this.displayBeers = this.allBeers;
+                        alert("Please enter a beer name.");
+                    }
+                    
+                    this.displayBeers = this.allBeers.filter(beer =>  beer.nameDisplay.includes(this.searchVal));
                 }
             },
             created() {

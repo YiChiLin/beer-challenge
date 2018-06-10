@@ -18,7 +18,7 @@ namespace BeerChallengeTest
             public void GetOrganicBeerTest()
             {
                 _Driver.Navigate().GoToUrl(_BaseUrl);
-                WaitDataFromApi();
+                WaitForDataFromApi();
                 _Driver.FindElement(By.Id("organicBtn")).Click();
                 Assert.AreEqual("IsOrganic: Yes",
                     _Driver.FindElement(By.CssSelector("#app > div > div > div:nth-child(2) > div > p:nth-child(2)"))
@@ -29,7 +29,7 @@ namespace BeerChallengeTest
             public void SearchByBeerNameTest()
             {
                 _Driver.Navigate().GoToUrl(_BaseUrl);
-                WaitDataFromApi();
+                WaitForDataFromApi();
 
                 var searchingBeerName = "American";
                 _Driver.FindElement(By.Id("searchInput")).SendKeys(searchingBeerName);
@@ -46,9 +46,9 @@ namespace BeerChallengeTest
                 _BaseUrl = "http://beerchallenge.localdev.net/";
             }
 
-            private void WaitDataFromApi()
+            private void WaitForDataFromApi()
             {
-                Thread.Sleep(700);
+                Thread.Sleep(800);
             }
         }
     }

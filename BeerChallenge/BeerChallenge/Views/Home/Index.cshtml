@@ -18,78 +18,78 @@
         <template>
             <div class="wrapper">
                 <div class="dropdown">
-                <nav class="navbar navbar-light bg-light justify-content-between">
-                    <button type="button" id="sortDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{currentSort}}</button>
-                    <div class="dropdown-menu">
-                    <a class="dropdown-item" id="descendingBtn" href="#" v-on:click="sortDesc('Descending');">Descending</a>
-                    <a class="dropdown-item" id="ascendingBtn" href="#" v-on:click="sortAsec('Ascending');">Ascending</a>
-                    </div>
-                    <div class="dropdown form-inline">
-                        <button type="button" id="organicBtn" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
-                        <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
-                        <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" v-on:click="searchByBeerName()">Search By Beer Name</button>
-                    </div>
-                </nav>
-                <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in displayBeers" :key="index">
-                    <h5 class="card-header">{{item.nameDisplay}}</h5>
-                    <div class="card-body">
-                        <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.statusDisplay}}</p>
-                        <p class="card-text" style="text-align:left;"><strong>IsOrganic: </strong>{{item.isOrganic =='Y' ? 'Yes': 'No'}}</p>
-                        <p class="card-text" style="text-align:left;"><strong>International Bitterness Unite: </strong>{{item.ibu ? item.ibu :'-' }}</p>
-                        <p class="card-text" style="text-align:left;"><strong>Original Gravity: </strong>{{item.originalGravity ? item.originalGravity :'-'}}</p>
-                        <p class="card-text" style="text-align:left;"><strong>Alcohol By Volume: </strong>{{item.abv}}</p>
-                        <p class="card-text" style="text-align:left;"><strong>Create Date: </strong>{{item.createDate}}</p>
-                        <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
-                        <a href="#" v-if="showCloseBtn && selectedDetail == item.id" class="btn btn-danger" v-on:click.prevent="hideDetail();">Close</a>
-                        <a href="#" v-else class="btn btn-primary" v-on:click.prevent="showDetail(item.id);">More</a>
+                    <nav class="navbar navbar-light bg-light justify-content-between">
+                        <button type="button" id="sortDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{currentSort}}</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="descendingBtn" href="#" v-on:click="sort('Descending');">Descending</a>
+                            <a class="dropdown-item" id="ascendingBtn" href="#" v-on:click="sort('Ascending');">Ascending</a>
+                        </div>
+                        <div class="dropdown form-inline">
+                            <button type="button" id="organicBtn" v-bind:class="{'btn':true,'btn-success': isOrganic, 'btn-secondary':isOrganic}" v-on:click="isOrganic= !isOrganic; filterOrganic();">Organic Beer</button>
+                            <input class="form-control mr-sm-2" id="searchInput" type="search" placeholder="Search" aria-label="Search" v-model="searchVal">
+                            <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" v-on:click="searchByBeerName()">Search By Beer Name</button>
+                        </div>
+                    </nav>
+                    <div style="margin-top: 1em;" v-if="allBeers" class="card" v-for="(item,index) in displayBeers" :key="index">
+                        <h5 class="card-header">{{item.nameDisplay}}</h5>
+                        <div class="card-body">
+                            <p class="card-text" style="text-align:left;"><strong>Current Status: </strong>{{item.statusDisplay}}</p>
+                            <p class="card-text" style="text-align:left;"><strong>IsOrganic: </strong>{{item.isOrganic =='Y' ? 'Yes': 'No'}}</p>
+                            <p class="card-text" style="text-align:left;"><strong>International Bitterness Unite: </strong>{{item.ibu ? item.ibu :'-' }}</p>
+                            <p class="card-text" style="text-align:left;"><strong>Original Gravity: </strong>{{item.originalGravity ? item.originalGravity :'-'}}</p>
+                            <p class="card-text" style="text-align:left;"><strong>Alcohol By Volume: </strong>{{item.abv}}</p>
+                            <p class="card-text" style="text-align:left;"><strong>Create Date: </strong>{{item.createDate}}</p>
+                            <p class="card-text" style="text-align:left"><strong>Background Introduction: </strong>{{item.description}}</p>
+                            <a href="#" v-if="showCloseBtn && selectedDetail == item.id" class="btn btn-danger" v-on:click.prevent="hideDetail();">Close</a>
+                            <a href="#" v-else class="btn btn-primary" v-on:click.prevent="showDetail(item.id);">More</a>
 
-                        <div v-show="selectedDetail == item.id">
-                            <hr>
-                            <h3>Details</h3>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Property</th>
-                                    <th scope="col">Value</th>
-                                    <th scope="col">Property</th>
-                                    <th scope="col">Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Category</th>
-                                        <td>{{item.style.categoryId}}</td>
-                                        <th>Abv Min</th>
-                                        <td>{{item.style.abvMin}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Fg Min</th>
-                                        <td>{{item.style.fgMin}}</td>
-                                        <th>Fg Max</th>
-                                        <td>{{item.style.fgMax}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Ibu Min</th>
-                                        <td>{{item.style.fgMin}}</td>
-                                        <th>Ibu Max</th>
-                                        <td>{{item.style.fgMax}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Srm Min</th>
-                                        <td>{{item.style.srmMin}}</td>
-                                        <th>Srm Max</th>
-                                        <td>{{item.style.srmMax}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Style Description</th>
-                                        <td colspan="3">{{item.style.description}}</th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div v-show="selectedDetail == item.id">
+                                <hr>
+                                <h3>Details</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Property</th>
+                                            <th scope="col">Value</th>
+                                            <th scope="col">Property</th>
+                                            <th scope="col">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Category</th>
+                                            <td>{{item.style.categoryId}}</td>
+                                            <th>Abv Min</th>
+                                            <td>{{item.style.abvMin}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fg Min</th>
+                                            <td>{{item.style.fgMin}}</td>
+                                            <th>Fg Max</th>
+                                            <td>{{item.style.fgMax}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ibu Min</th>
+                                            <td>{{item.style.fgMin}}</td>
+                                            <th>Ibu Max</th>
+                                            <td>{{item.style.fgMax}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Srm Min</th>
+                                            <td>{{item.style.srmMin}}</td>
+                                            <th>Srm Max</th>
+                                            <td>{{item.style.srmMax}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Style Description</th>
+                                            <td colspan="3">{{item.style.description}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </template>
     </div>
     <script>
@@ -101,9 +101,9 @@
                     searchVal: "",
                     displayBeers: [],
                     isOrganic: false,
-                    selectedDetail:"none",
+                    selectedDetail: "none",
                     showCloseBtn: false,
-                    currentSort:"Sort by date"
+                    currentSort: "Sort by date"
                 }
             },
             methods: {
@@ -112,37 +112,32 @@
                         .then(response => {
                             this.allBeers = response.data;
                             this.displayBeers = this.allBeers;
-                            console.log(this.allBeers);
                         });
                 },
-                searchByBeerName(){
-                    if(!this.searchVal){
+                searchByBeerName() {
+                    if (!this.searchVal) {
                         this.displayBeers = this.allBeers;
                         alert("Please enter a beer name.");
                     }
-                    
-                    this.displayBeers = this.allBeers.filter(beer =>  beer.nameDisplay.toLowerCase().includes(this.searchVal.toLowerCase()));
+
+                    this.displayBeers = this.allBeers.filter(beer => beer.nameDisplay.toLowerCase().includes(this.searchVal.toLowerCase()));
                 },
-                filterOrganic(){
-                    let targetCondiction = this.isOrganic ? 'Y':'N';
-                    this.displayBeers = this.allBeers.filter(beer=>beer.isOrganic == targetCondiction);
+                filterOrganic() {
+                    let targetCondiction = this.isOrganic ? 'Y' : 'N';
+                    this.displayBeers = this.allBeers.filter(beer => beer.isOrganic == targetCondiction);
                 },
-                showDetail(beerId){
+                showDetail(beerId) {
                     this.selectedDetail = beerId;
                     this.showCloseBtn = true;
                 },
-                hideDetail(beerId){
+                hideDetail() {
                     this.selectedDetail = "none";
                 },
-                sortDesc(sortMethod){
+                sort(sortMethod) {
                     this.currentSort = sortMethod;
-                    this.displayBeers = this.allBeers.sort((beer1,beer2)=>{
-                        return new Date(beer2.createDate) - new Date(beer1.createDate);
-                    });
-                },
-                sortAsec(sortMethod){
-                    this.currentSort = sortMethod;
-                    this.displayBeers = this.allBeers.sort((beer1,beer2)=>{
+                    this.displayBeers = this.allBeers.sort((beer1, beer2) => {
+                        if (sortMethod == 'Descending')
+                            return new Date(beer2.createDate) - new Date(beer1.createDate);
                         return new Date(beer1.createDate) - new Date(beer2.createDate);
                     });
                 }
